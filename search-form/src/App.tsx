@@ -1,85 +1,92 @@
-import React from "react";
+import React, { useReducer, Suspense } from "react";
 import styled from "styled-components";
 
-import { useFetch, IBook } from "./hooks";
+import {
+  initialState,
+  booksReducer,
+  dispatchMiddleware,
+  BooksContext,
+  DispatchContext
+} from "./hooks";
 import "./App.css";
+import { SearchHistory } from "./components/searchHistory";
+import { SearchInput } from "./components/searchInput";
+import { SearchBarList } from "./components/searchBarList";
+import { media } from "./responsive";
 
 const Container = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: stretch;
-  align-items: stretch;
-  padding: 30px;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  grid-column: 1/-1;
+  margin: 30px;
+  grid-row-start: 2;
+
+  ${(media as Media).breakpointMedium`
+    grid-row-start: auto;
+    grid-column: 3/11;
+  `}
 `;
 
-const DropDownContent = styled.div`
-  height: 36px;
-  border: 0;
-  border-radius: 4px;
-
-  align-items: center;
-  display: flex;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 8px;
-`;
-
-const Input = styled.input`
-  font-size: 15px;
-  border: 0;
+const Content = styled.div`
   width: 100%;
-  background: transparent;
-  display: inline-block;
-  padding-left: 52px;
-  position: relative;
-  padding-right: 52px;
-  height: 24px;
-
-  &:focus {
-    outline: none;
-  }
+  background: #f6f6f6;
 `;
 
-const SearchList = styled.ul<{ hidden: boolean }>`
-  visibility: ${p => (p.hidden ? "hidden" : "initial")};
-  margin: 0;
-  padding: 0;
-  border: 1px solid #ddd;
-  z-index: 1;
-  border-radius: 4px;
-  overflow: hidden;
-  overflow-y: scroll;
-  height: 200px;
+export interface MediaBreakpoint {
+  (css: TemplateStringsArray, ...a: any[]): string;
+}
+
+interface Media {
+  breakpointMedium: MediaBreakpoint;
+  breakpointLarge: MediaBreakpoint;
+  breakpointXlarge: MediaBreakpoint;
+}
+
+export const Grid = styled.div`
+  display: grid;
+  grid-gap: 24px 16px;
+  grid-template-columns: repeat(4, 1fr [col-start]);
+
+  ${(media as Media).breakpointMedium`
+    grid-template-columns: repeat(12, 1fr [col-start]);
+  `};
 `;
 
-const SearchItem = styled.li`
-  color: black;
-  padding: 4px 16px;
-  text-decoration: none;
-  display: block;
-  list-style: none;
-  cursor: pointer;
-  border-bottom: 1px solid #ddd;
+export const PageLayout = styled(Grid)`
+  align-items: start;
+  padding: 24px 16px;
+  grid-row-gap: 0;
+
+  ${(media as Media).breakpointMedium`
+    padding-bottom: 40px;
+  `};
+
+  ${(media as Media).breakpointLarge`
+    padding: 64px 80px;
+  `};
 `;
 
-const App: React.FC = () => {
-  const { books, setQuery } = useFetch();
+const App = () => {
+  const [state, dispatchBase] = useReducer(booksReducer, initialState);
+  const dispatch = dispatchMiddleware(dispatchBase);
 
   return (
-    <Container>
-      <DropDownContent>
-        <Input
-          placeholder="Search books..."
-          type="text"
-          onChange={e => setQuery(e.target.value)}
-        />
-      </DropDownContent>
-      <SearchList hidden={books.length === 0}>
-        {books.map((book: IBook) => (
-          <SearchItem key={book.id}>{book.title.slice(0, 50)}</SearchItem>
-        ))}
-      </SearchList>
-    </Container>
+    <BooksContext.Provider value={state}>
+      <DispatchContext.Provider value={dispatch}>
+        <PageLayout>
+          <Container>
+            <Content>
+              <SearchInput />
+              <Suspense fallback="loading...">
+                <SearchBarList />
+              </Suspense>
+              <SearchHistory />
+            </Content>
+          </Container>
+        </PageLayout>
+      </DispatchContext.Provider>
+    </BooksContext.Provider>
   );
 };
 
