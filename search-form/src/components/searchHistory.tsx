@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import { BooksContext, DispatchContext, ACTIONS } from "../hooks";
 
-const Container = styled.section<{ hidden: boolean }>`
-  display: ${p => (p.hidden ? "none" : "flex")};
+const Container = styled.section`
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -78,21 +78,27 @@ export const SearchHistory = () => {
   const deleteHistory = () => dispatch({ type: ACTIONS.DELETE_ALL_HISTORY });
 
   return (
-    <Container hidden={state.serachHistory.length === 0}>
+    <Container role="search-history">
       <Title>
         <SubTitle>Search history</SubTitle>{" "}
         <ClearButton onClick={deleteHistory}>Clear search history</ClearButton>
       </Title>
       <SearchList>
-        {state.serachHistory.map(book => (
-          <SearchItem key={book.id}>
-            <span>{book.title.slice(0, 30)}</span>{" "}
-            <div>
-              <DisplayDate>{book.time}</DisplayDate>{" "}
-              <Button onClick={() => deleteBook(book.id)}>&#10005;</Button>
-            </div>
+        {state.serachHistory.length > 0 ? (
+          state.serachHistory.map(book => (
+            <SearchItem key={book.id}>
+              <span>{book.title.slice(0, 30)}</span>{" "}
+              <div>
+                <DisplayDate>{book.time}</DisplayDate>{" "}
+                <Button onClick={() => deleteBook(book.id)}>&#10005;</Button>
+              </div>
+            </SearchItem>
+          ))
+        ) : (
+          <SearchItem key="1">
+            <span>No Search history was found</span>{" "}
           </SearchItem>
-        ))}
+        )}
       </SearchList>
     </Container>
   );

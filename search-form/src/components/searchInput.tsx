@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { BooksContext, DispatchContext, ACTIONS } from "../hooks";
 
-const DropDownContent = styled.div`
+const DropDownContent = styled.section`
   height: 36px;
   border: 0;
   align-items: center;
@@ -51,7 +51,7 @@ export const SearchInput = () => {
   };
 
   return (
-    <DropDownContent>
+    <DropDownContent role="search-drobdown">
       <Input
         id="search"
         placeholder="Search books..."

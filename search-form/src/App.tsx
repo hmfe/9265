@@ -20,7 +20,7 @@ import { SearchBarList } from "./components/searchBarList";
 //   breakpointXlarge: "1280px"
 // };
 
-export const Grid = styled.div`
+export const Grid = styled.main`
   display: grid;
   grid-gap: 24px 16px;
   grid-template-columns: repeat(4, 1fr [col-start]);
@@ -30,7 +30,7 @@ export const Grid = styled.div`
   }
 `;
 
-const Container = styled.div`
+const Container = styled.section`
   grid-column: 1/-1;
   margin: 30px 10px;
   grid-row-start: 2;
@@ -56,6 +56,11 @@ const Content = styled.div`
   background: #f6f6f6;
 `;
 
+const Header = styled.header`
+  grid-column: 1/-1;
+  text-align: center;
+`;
+
 const App = () => {
   const [state, dispatchBase] = useReducer(booksReducer, initialState);
   const dispatch = dispatchMiddleware(dispatchBase);
@@ -68,6 +73,9 @@ const App = () => {
           <title>Book Search</title>
           <link rel="canonical" href="#" />
         </Helmet>
+        <Header>
+          <h1>Book Search</h1>
+        </Header>
         <Grid>
           <Container>
             <Content>
