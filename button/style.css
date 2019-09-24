@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+}
+
+button {
+  width: 200px;
+  height: 115px;
+  border: 2px solid #d1d1d1;
+  background: linear-gradient(229deg, orange, transparent);
+  text-align: left;
+  font-size: 24px;
+  font-weight: 800;
+  position: relative;
+  padding: 8px;
+}
+
+button::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  background: white;
+  right: 15px;
+  top: 17px;
+}
+
+button::before {
+  position: absolute;
+  top: 8px;
+  bottom: 0;
+  left: 84px;
+  right: 0;
+  content: "\00d7";
+  color: black;
+  line-height: 100px;
+  text-align: center;
+  z-index: 2;
+  font-size: 5rem;
+  font-weight: 500;
+}
