@@ -14,21 +14,11 @@ import { SearchHistory } from "./components/searchHistory";
 import { SearchInput } from "./components/searchInput";
 import { SearchBarList } from "./components/searchBarList";
 
-const Container = styled.div`
-  grid-column: 1/-1;
-  margin: 30px;
-  grid-row-start: 2;
-
-  @media (min-width: 620px) {
-    grid-row-start: auto;
-    grid-column: 3/11;
-  }
-`;
-
-const Content = styled.div`
-  width: 100%;
-  background: #f6f6f6;
-`;
+// let widths = {
+//   breakpointMedium: "620px",
+//   breakpointLarge: "800px",
+//   breakpointXlarge: "1280px"
+// };
 
 export const Grid = styled.div`
   display: grid;
@@ -40,17 +30,30 @@ export const Grid = styled.div`
   }
 `;
 
-export const PageLayout = styled(Grid)`
-  align-items: start;
-  padding: 24px 16px;
-  grid-row-gap: 0;
+const Container = styled.div`
+  grid-column: 1/-1;
+  margin: 30px 10px;
+  grid-row-start: 2;
+
+  @media (min-width: 500px) {
+    grid-column: 1/-1;
+    margin: 30px;
+  }
 
   @media (min-width: 620px) {
-    padding-bottom: 40px;
+    grid-column: 3/11;
+    margin: 30px;
   }
+
   @media (min-width: 800px) {
-    padding: 64px 80px;
+    grid-column: 4/10;
+    margin: 30px 50px;
   }
+`;
+
+const Content = styled.div`
+  width: 100%;
+  background: #f6f6f6;
 `;
 
 const App = () => {
@@ -63,9 +66,9 @@ const App = () => {
         <Helmet>
           <meta charSet="utf-8" />
           <title>Book Search</title>
-          <link rel="canonical" href="http://mysite.com/example" />
+          <link rel="canonical" href="#" />
         </Helmet>
-        <PageLayout>
+        <Grid>
           <Container>
             <Content>
               <SearchInput />
@@ -75,7 +78,7 @@ const App = () => {
               <SearchHistory />
             </Content>
           </Container>
-        </PageLayout>
+        </Grid>
       </DispatchContext.Provider>
     </BooksContext.Provider>
   );
