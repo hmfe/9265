@@ -30,12 +30,10 @@ export const SearchBarList = () => {
   const state = useContext(BooksContext);
   const dispatch = useContext(DispatchContext);
 
-  const visible = () => state.books.length === 0;
-
   const styleProps = useSpring({
     from: { height: 0 },
     to: { height: state.books.length > 0 ? 119 : 0 },
-    config: { duration: 250 }
+    config: { duration: 200 }
   });
 
   const handlClickBook = (book: IBook) => {

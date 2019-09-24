@@ -1,5 +1,6 @@
 import React, { useReducer, Suspense } from "react";
 import styled from "styled-components";
+import { Helmet } from "react-helmet";
 
 import {
   initialState,
@@ -12,20 +13,16 @@ import "./App.css";
 import { SearchHistory } from "./components/searchHistory";
 import { SearchInput } from "./components/searchInput";
 import { SearchBarList } from "./components/searchBarList";
-import { media } from "./responsive";
 
 const Container = styled.div`
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
   grid-column: 1/-1;
   margin: 30px;
   grid-row-start: 2;
 
-  ${(media as Media).breakpointMedium`
+  @media (min-width: 620px) {
     grid-row-start: auto;
     grid-column: 3/11;
-  `}
+  }
 `;
 
 const Content = styled.div`
@@ -33,24 +30,14 @@ const Content = styled.div`
   background: #f6f6f6;
 `;
 
-export interface MediaBreakpoint {
-  (css: TemplateStringsArray, ...a: any[]): string;
-}
-
-interface Media {
-  breakpointMedium: MediaBreakpoint;
-  breakpointLarge: MediaBreakpoint;
-  breakpointXlarge: MediaBreakpoint;
-}
-
 export const Grid = styled.div`
   display: grid;
   grid-gap: 24px 16px;
   grid-template-columns: repeat(4, 1fr [col-start]);
 
-  ${(media as Media).breakpointMedium`
+  @media (min-width: 620px) {
     grid-template-columns: repeat(12, 1fr [col-start]);
-  `};
+  }
 `;
 
 export const PageLayout = styled(Grid)`
@@ -58,13 +45,12 @@ export const PageLayout = styled(Grid)`
   padding: 24px 16px;
   grid-row-gap: 0;
 
-  ${(media as Media).breakpointMedium`
+  @media (min-width: 620px) {
     padding-bottom: 40px;
-  `};
-
-  ${(media as Media).breakpointLarge`
+  }
+  @media (min-width: 800px) {
     padding: 64px 80px;
-  `};
+  }
 `;
 
 const App = () => {
@@ -74,6 +60,11 @@ const App = () => {
   return (
     <BooksContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Book Search</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
         <PageLayout>
           <Container>
             <Content>

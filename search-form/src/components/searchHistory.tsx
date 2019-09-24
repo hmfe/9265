@@ -41,7 +41,7 @@ const Button = styled.button`
 `;
 
 const DisplayDate = styled.span`
-  font-size: 10px;
+  font-size: 0.8rem;
   color: grey;
 `;
 

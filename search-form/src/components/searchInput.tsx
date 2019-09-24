@@ -13,14 +13,14 @@ const DropDownContent = styled.div`
 `;
 
 const Input = styled.input`
-  font-size: 15px;
+  font-size: 1.6rem;
   border: 0;
   width: 100%;
   background: transparent;
   display: inline-block;
-  padding-left: 52px;
+  padding-left: 20px;
   position: relative;
-  padding-right: 52px;
+  padding-right: 20px;
   height: 24px;
 
   &:focus {
@@ -29,7 +29,7 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  margin-left: -50px;
+  margin-left: -29px;
   background: transparent;
   border: 0;
   cursor: pointer;
@@ -42,16 +42,18 @@ export const SearchInput = () => {
   const state = useContext(BooksContext);
   const dispatch = useContext(DispatchContext);
 
-  function load(q: string) {
+  const load = (q: string) => {
     dispatch({ type: ACTIONS.REQUEST_SEARCH, payload: q });
-  }
+  };
 
   const clearQuery = () => {
     dispatch({ type: ACTIONS.CLEAR_QUERY });
   };
+
   return (
     <DropDownContent>
       <Input
+        id="search"
         placeholder="Search books..."
         type="text"
         onChange={e => load(e.target.value)}
